@@ -3,11 +3,7 @@
     "step": {
       "user": {
         "data": {
-          "name": "[%key:common::config_flow::data::name%]",
-          "api_key": "[%key:common::config_flow::data::api_key%]",
-          "base_url": "[%key:common::config_flow::data::base_url%]",
-          "api_version": "[%key:common::config_flow::data::api_version%]",
-          "skip_authentication": "[%key:common::config_flow::data::skip_authentication%]"
+          "api_key": "[%key:common::config_flow::data::api_key%]"
         }
       }
     },
@@ -25,45 +21,15 @@
           "model": "Completion Model",
           "max_tokens": "Maximum tokens to return in response",
           "temperature": "Temperature",
-          "top_p": "Top P",
-          "max_function_calls_per_conversation": "Maximum function calls per conversation",
-          "functions": "Functions",
-          "attach_username": "Attach Username to Message",
-          "model_key": "Model Key"
+          "top_p": "Top P"
         }
       }
     }
   },
-  "services": {
-    "query_image": {
-      "name": "Query image",
-      "description": "Take in images and answer questions about them",
-      "fields": {
-        "config_entry": {
-          "name": "Config Entry",
-          "description": "The config entry to use for this service"
-        },
-        "model": {
-          "name": "Model",
-          "description": "The model",
-          "example": "gpt-4-vision-preview"
-        },
-        "prompt": {
-          "name": "Prompt",
-          "description": "The text to ask about image",
-          "example": "What’s in this image?"
-        },
-        "images": {
-          "name": "Images",
-          "description": "A list of images that would be asked",
-          "example": "{\"url\": \"https://upload.wikimedia.org/wikipedia/commons/thumb/d/dd/Gfp-wisconsin-madison-the-nature-boardwalk.jpg/2560px-Gfp-wisconsin-madison-the-nature-boardwalk.jpg\"}"
-        },
-        "max_tokens": {
-          "name": "Max Tokens",
-          "description": "The maximum tokens",
-          "example": "300"
-        }
-      }
+  "issues": {
+    "image_size_deprecated_format": {
+      "title": "Deprecated size format for image generation service",
+      "description": "OpenAI is now using Dall-E 3 to generate images when calling `openai_conversation.generate_image`, which supports different sizes. Valid values are now \"1024x1024\", \"1024x1792\", \"1792x1024\". The old values of \"256\", \"512\", \"1024\" are currently interpreted as \"1024x1024\".\nPlease update your scripts or automations with the new parameters."
     }
   }
 }

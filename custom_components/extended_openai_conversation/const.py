@@ -1,88 +1,33 @@
-"""Constants for the Extended OpenAI Conversation integration."""
+"""Constants for the MistralAI Conversation integration."""
 
-DOMAIN = "extended_openai_conversation"
-DEFAULT_NAME = "Extended OpenAI Conversation"
-CONF_BASE_URL = "base_url"
-DEFAULT_CONF_BASE_URL = "https://api.openai.com/v1"
-CONF_API_VERSION = "api_version"
-CONF_SKIP_AUTHENTICATION = "skip_authentication"
-DEFAULT_SKIP_AUTHENTICATION = False
-
-EVENT_AUTOMATION_REGISTERED = "automation_registered_via_extended_openai_conversation"
-
+DOMAIN = "mistralai_conversation"
 CONF_PROMPT = "prompt"
-DEFAULT_PROMPT = """I want you to act as smart home manager of Home Assistant.
-I will provide information of smart home along with a question, you will truthfully make correction or answer using information provided in one sentence in everyday language.
+DEFAULT_PROMPT = """This smart home is controlled by Home Assistant.
 
-Current Time: {{now()}}
+An overview of the areas and the devices in this smart home:
+{%- for area in areas() %}
+  {%- set area_info = namespace(printed=false) %}
+  {%- for device in area_devices(area) -%}
+    {%- if not device_attr(device, "disabled_by") and not device_attr(device, "entry_type") and device_attr(device, "name") %}
+      {%- if not area_info.printed %}
 
-Available Devices:
-```csv
-entity_id,name,state,aliases
-{% for entity in exposed_entities -%}
-{{ entity.entity_id }},{{ entity.name }},{{ entity.state }},{{entity.aliases | join('/')}}
-{% endfor -%}
-```
+{{ area_name(area) }}:
+        {%- set area_info.printed = true %}
+      {%- endif %}
+- {{ device_attr(device, "name") }}{% if device_attr(device, "model") and (device_attr(device, "model") | string) not in (device_attr(device, "name") | string) %} ({{ device_attr(device, "model") }}){% endif %}
+    {%- endif %}
+  {%- endfor %}
+{%- endfor %}
 
-The current state of devices is provided in available devices.
-Use execute_services function only for requested action, not for current states.
-Do not execute service without user's confirmation.
-Do not restate or appreciate what user says, rather make a quick inquiry.
+Answer the user's questions about the world truthfully.
+
+If the user wants to control a device, reject the request and suggest using the Home Assistant app.
 """
 CONF_CHAT_MODEL = "chat_model"
-DEFAULT_CHAT_MODEL = "gpt-3.5-turbo-1106"
+DEFAULT_CHAT_MODEL = "mistral-tiny"
 CONF_MAX_TOKENS = "max_tokens"
 DEFAULT_MAX_TOKENS = 150
 CONF_TOP_P = "top_p"
 DEFAULT_TOP_P = 1
 CONF_TEMPERATURE = "temperature"
 DEFAULT_TEMPERATURE = 0.5
-CONF_MAX_FUNCTION_CALLS_PER_CONVERSATION = "max_function_calls_per_conversation"
-DEFAULT_MAX_FUNCTION_CALLS_PER_CONVERSATION = 1
-CONF_FUNCTIONS = "functions"
-DEFAULT_CONF_FUNCTIONS = [
-    {
-        "spec": {
-            "name": "execute_services",
-            "description": "Use this function to execute service of devices in Home Assistant.",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "list": {
-                        "type": "array",
-                        "items": {
-                            "type": "object",
-                            "properties": {
-                                "domain": {
-                                    "type": "string",
-                                    "description": "The domain of the service",
-                                },
-                                "service": {
-                                    "type": "string",
-                                    "description": "The service to be called",
-                                },
-                                "service_data": {
-                                    "type": "object",
-                                    "description": "The service data object to indicate what to control.",
-                                    "properties": {
-                                        "entity_id": {
-                                            "type": "string",
-                                            "description": "The entity_id retrieved from available devices. It must start with domain, followed by dot character.",
-                                        }
-                                    },
-                                    "required": ["entity_id"],
-                                },
-                            },
-                            "required": ["domain", "service", "service_data"],
-                        },
-                    }
-                },
-            },
-        },
-        "function": {"type": "native", "name": "execute_service"},
-    }
-]
-CONF_ATTACH_USERNAME = "attach_username"
-DEFAULT_ATTACH_USERNAME = False
-
-SERVICE_QUERY_IMAGE = "query_image"
