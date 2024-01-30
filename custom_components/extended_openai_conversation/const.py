@@ -3,12 +3,10 @@
 DOMAIN = "mistralai_conversation"
 DEFAULT_NAME = "Extended OpenAI Conversation"
 CONF_ENDPOINT = "endpoint"
-DEFAULT_CONF_ENDPOINT = "https://api.openai.com/v1"
+DEFAULT_CONF_ENDPOINT = "https://api.mistral.ai"
 CONF_SKIP_AUTHENTICATION = "skip_authentication"
 DEFAULT_SKIP_AUTHENTICATION = False
-
 EVENT_AUTOMATION_REGISTERED = "automation_registered_via_extended_mistralai_conversation"
-
 CONF_PROMPT = "prompt"
 DEFAULT_PROMPT = """This smart home is controlled by Home Assistant.
 
@@ -30,6 +28,12 @@ An overview of the areas and the devices in this smart home:
 Answer the user's questions about the world truthfully.
 
 If the user wants to control a device, reject the request and suggest using the Home Assistant app.
+"""
+
+CONF_UNAUTHORIZE_PROMPT = "unauthorize_prompt"
+DEFAULT_UNAUTHORIZE_PROMPT = """Rewrite this sentence in GlaDOS's personality. Do not include ANYTHING else. Do not include an explanation. Just write a sentence or two in GlaDOS's personality: "
+You are not authorized to perform this task, {%- user.name %}.
+What are you trying to do?"
 """
 CONF_CHAT_MODEL = "chat_model"
 DEFAULT_CHAT_MODEL = "mistral-tiny"

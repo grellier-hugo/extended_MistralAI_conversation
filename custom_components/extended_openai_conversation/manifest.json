@@ -7,7 +7,7 @@
   "documentation": "https://www.home-assistant.io/integrations/mistralai_conversation",
   "homekit": {},
   "iot_class": "cloud_polling",
-  "requirements": ["mistralai==0.0.11"],
+  "requirements": ["mistralai==0.0.12"],
   "ssdp": [],
   "zeroconf": []
 }

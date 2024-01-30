@@ -36,7 +36,6 @@ from .const import (
     CONF_TEMPERATURE,
     CONF_TOP_P,
     CONF_ATTACH_USERNAME_TO_PROMPT,
-    CONF_FUNCTIONS,
     CONF_ENDPOINT,
     CONF_SKIP_AUTHENTICATION,
     DEFAULT_CHAT_MODEL,
@@ -44,7 +43,6 @@ from .const import (
     DEFAULT_PROMPT,
     DEFAULT_TEMPERATURE,
     DEFAULT_TOP_P,
-    DEFAULT_CONF_FUNCTIONS,
     DEFAULT_CONF_ENDPOINT,
     DEFAULT_ATTACH_USERNAME_TO_PROMPT,
     DEFAULT_SKIP_AUTHENTICATION,
@@ -64,8 +62,6 @@ STEP_USER_DATA_SCHEMA = vol.Schema(
     }
 )
 
-DEFAULT_CONF_FUNCTIONS_STR = yaml.dump(DEFAULT_CONF_FUNCTIONS, sort_keys=False)
-
 DEFAULT_OPTIONS = types.MappingProxyType(
     {
         CONF_PROMPT: DEFAULT_PROMPT,
@@ -73,7 +69,6 @@ DEFAULT_OPTIONS = types.MappingProxyType(
         CONF_MAX_TOKENS: DEFAULT_MAX_TOKENS,
         CONF_TOP_P: DEFAULT_TOP_P,
         CONF_TEMPERATURE: DEFAULT_TEMPERATURE,
-        CONF_FUNCTIONS: DEFAULT_CONF_FUNCTIONS_STR,
         CONF_ATTACH_USERNAME_TO_PROMPT: DEFAULT_ATTACH_USERNAME_TO_PROMPT,
     }
 )
@@ -88,17 +83,13 @@ async def validate_input(hass: HomeAssistant, data: dict[str, Any]) -> None:
     endpoint = data.get(CONF_ENDPOINT)
     skip_authentication = data.get(CONF_SKIP_AUTHENTICATION)
 
-    if endpoint == DEFAULT_CONF_ENDPOINT:
-        endpoint = None
-        data.pop(CONF_ENDPOINT)
+    _LOGGER.error(f"endpoint: {endpoint}")
     await validate_authentication(
         hass=hass,
         api_key=api_key,
         endpoint=endpoint,
         skip_authentication=skip_authentication,
     )
-    client = MistralAsyncClient(api_key=api_key, endpoint=endpoint)
-    await client.list_models()
 
 class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for MistralAI Conversation."""
@@ -196,11 +187,6 @@ def mistralai_config_option_schema(options: MappingProxyType[str, Any]) -> dict:
             description={"suggested_value": options[CONF_TEMPERATURE]},
             default=DEFAULT_TEMPERATURE,
         ): NumberSelector(NumberSelectorConfig(min=0, max=1, step=0.05)),
-        vol.Optional(
-            CONF_FUNCTIONS,
-            description={"suggested_value": options.get(CONF_FUNCTIONS)},
-            default=DEFAULT_CONF_FUNCTIONS_STR,
-        ): TemplateSelector(),
         vol.Optional(
             CONF_ATTACH_USERNAME_TO_PROMPT,
             description={"suggested_value": options.get(CONF_ATTACH_USERNAME_TO_PROMPT)},
