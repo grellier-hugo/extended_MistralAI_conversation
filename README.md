@@ -26,9 +26,6 @@ Options include [OpenAI Conversation](https://www.home-assistant.io/integrations
 
 - `Attach Username`: Pass the active user's name (if applicable) to MistralAI via the message payload. Currently, this only applies to conversations through the UI or REST API.
 
-## Practical Usage
-See more practical [examples](https://github.com/jekalmin/extended_openai_conversation/tree/main/examples).
-
 ## Logging
 In order to monitor logs of API requests and responses, add following config to `configuration.yaml` file
 
@@ -37,3 +34,7 @@ logger:
   logs:
     custom_components.extended_openai_conversation: info
 ```
+
+
+## TODO
+- Add function calling when MistralAI's API support it (do it like https://github.com/jekalmin/extended_openai_conversation)
