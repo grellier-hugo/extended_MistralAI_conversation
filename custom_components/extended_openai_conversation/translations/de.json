@@ -10,7 +10,7 @@
                 "data": {
                     "name": "Name",
                     "api_key": "API Key",
-                    "base_url": "Base Url",
+                    "endpoint": "Base Url",
                     "api_version": "Api Version",
                     "skip_authentication": "Authentifizierung überspringen"
                 }

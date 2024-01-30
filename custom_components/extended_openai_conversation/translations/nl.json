@@ -10,7 +10,7 @@
                 "data": {
                     "name": "Naam",
                     "api_key": "API Sleutel",
-                    "base_url": "Basis URL",
+                    "endpoint": "Basis URL",
                     "api_version": "API Version",
                     "skip_authentication": "Authenticatie overslaan"
                 }

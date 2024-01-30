@@ -10,7 +10,7 @@
                 "data": {
                     "name": "Imię",
                     "api_key": "Klucz API",
-                    "base_url": "Bazowy URL",
+                    "endpoint": "Bazowy URL",
                     "api_version": "Wersja API",
                     "skip_authentication": "Pomiń authentykację"
                 }

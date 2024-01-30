@@ -1,6 +1,14 @@
 """Constants for the MistralAI Conversation integration."""
 
 DOMAIN = "mistralai_conversation"
+DEFAULT_NAME = "Extended OpenAI Conversation"
+CONF_ENDPOINT = "endpoint"
+DEFAULT_CONF_ENDPOINT = "https://api.openai.com/v1"
+CONF_SKIP_AUTHENTICATION = "skip_authentication"
+DEFAULT_SKIP_AUTHENTICATION = False
+
+EVENT_AUTOMATION_REGISTERED = "automation_registered_via_extended_mistralai_conversation"
+
 CONF_PROMPT = "prompt"
 DEFAULT_PROMPT = """This smart home is controlled by Home Assistant.
 
@@ -31,3 +39,6 @@ CONF_TOP_P = "top_p"
 DEFAULT_TOP_P = 1
 CONF_TEMPERATURE = "temperature"
 DEFAULT_TEMPERATURE = 0.5
+CONF_ATTACH_USERNAME_TO_PROMPT = "attach_username_to_prompt"
+DEFAULT_ATTACH_USERNAME_TO_PROMPT = False
+SERVICE_QUERY_IMAGE = "query_image"
